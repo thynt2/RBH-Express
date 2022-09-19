@@ -10,11 +10,10 @@ import org.junit.runner.RunWith;
         glue = {"stepsDefinition"
                 , "appHooks"
         },
-        monochrome = true,
+//        monochrome = true,
         publish = true,
-        plugin = {
-                "pretty", "html:target/site/cucumber.html", "json:target/site/cucumber.json"
-        }
+        plugin = {"pretty",
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
 )
 public class TestRunner {
 

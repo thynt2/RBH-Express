@@ -1,7 +1,7 @@
 package common;
 
 public class Message {
-    public static String FIRSTNAME_IS_EMPTY = "กรุณากรอกข้อมูล";
+    public static String FIRSTNAME_IS_EMPTY = "กรุณากรอกข้อมูล2";
     public static String LASTNAME_IS_EMPTY = "กรุณากรอกข้อมูล";
     public static String GENDER_IS_EMPTY = "กรุณาเลือกเพศ";
     public static String BIRTHDAY_IS_EMPTY = "กรุณาเลือกวันเกิด";

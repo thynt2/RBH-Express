@@ -2,12 +2,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>RBH-Express-</groupId>
+    <groupId>RBH-Express-WebTesting</groupId>
     <artifactId>RBH-Express-WebTesting</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>RBH-Express</name>
+    <name>RBH-Express-WebTesting</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -39,6 +39,12 @@
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
         </dependency>
 
         <dependency>

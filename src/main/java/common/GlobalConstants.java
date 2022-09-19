@@ -27,5 +27,6 @@ public class GlobalConstants {
     private final String osName = System.getProperty("os.name");
     private final String uploadFilePath = projectPath + File.separator + "uploadFiles" + File.separator;
     private final String downloadFilePath = projectPath + File.separator + "downloadFiles" + File.separator;
+    private final int implicitWaitTimeout = 15;
     private final String devUrl = "http://rbh-ex-dev-web.gcp.alp-robinhood.com/";
 }

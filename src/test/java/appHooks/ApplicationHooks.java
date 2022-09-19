@@ -1,9 +1,13 @@
 package appHooks;
 
+import com.google.common.io.Files;
 import common.GlobalConstants;
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.log4j.Logger;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -11,7 +15,12 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.remote.UnreachableBrowserException;
 
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class ApplicationHooks {
     private static WebDriver driver;
@@ -57,8 +66,8 @@ public class ApplicationHooks {
             }
             driver.manage().window().maximize();
             driver.get(GlobalConstants.getGlobalConstants().getDevUrl());
-            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
-            log.info("------------- Started the browser -------------");
+            driver.manage().deleteAllCookies();
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getImplicitWaitTimeout()));
         }
         return driver;
     }
@@ -67,10 +76,9 @@ public class ApplicationHooks {
         try {
             if (driver != null) {
                 openAndQuitBrowser().quit();
-                log.info("------------- Closed the browser -------------");
             }
         } catch (UnreachableBrowserException e) {
-            System.out.println("Can not close the browser");
+            throw new RuntimeException("Can not close the browser");
         }
     }
 
@@ -79,6 +87,16 @@ public class ApplicationHooks {
         public void run() {
             close();
         }
+    }
+    @After(order = 1)
+    public void tearDown(Scenario scenario) {
+//		if (scenario.isFailed()) {
+        // take screenshot:
+        String screenshotName = scenario.getName().replaceAll(" ", "_");
+        byte[] sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+        scenario.attach(sourcePath, "image/png", screenshotName);
+        System.out.println("tearDown");
+//		}
     }
 
 }
