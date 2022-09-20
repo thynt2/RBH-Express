@@ -10,7 +10,7 @@ import org.junit.runner.RunWith;
         glue = {"stepsDefinition"
                 , "appHooks"
         },
-//        monochrome = true,
+        monochrome = true,
         publish = true,
         plugin = {"pretty",
                 "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"}
