@@ -1,5 +1,6 @@
 package appHooks;
 
+import com.google.common.io.Files;
 import common.GlobalConstants;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -16,10 +17,14 @@ import org.openqa.selenium.remote.UnreachableBrowserException;
 
 
 import java.io.File;
+import java.io.IOException;
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class ApplicationHooks {
     private static WebDriver driver;
+    private static final Logger log = Logger.getLogger(ApplicationHooks.class.getName());
 
     @Before(order = 0)
     public void deleteReportScreenshot() {
@@ -87,8 +92,12 @@ public class ApplicationHooks {
 
 
     public static void close() {
-        if (driver != null) {
-            openAndQuitBrowser().quit();
+        try {
+            if (driver != null) {
+                openAndQuitBrowser().quit();
+            }
+        } catch (UnreachableBrowserException e) {
+            throw new RuntimeException("Can not close the browser");
         }
     }
 
