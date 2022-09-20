@@ -26,7 +26,7 @@ public class ApplicationHooks {
     private static WebDriver driver;
     private static final Logger log = Logger.getLogger(ApplicationHooks.class.getName());
 
-    @Before
+    @Before(order = 0)
     public synchronized static WebDriver openAndQuitBrowser() {
         String browser = System.getProperty("BROWSER");
         if (driver == null) {
@@ -71,6 +71,23 @@ public class ApplicationHooks {
         }
         return driver;
     }
+    @Before(order = 1)
+    public void deleteAllFilesInReports() {
+        try {
+            String workingDir = System.getProperty("user.dir");
+            String pathFolderDownload = workingDir + "/reports";
+            File file = new File(pathFolderDownload);
+            File[] listOfFiles = file.listFiles();
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].isFile()) {
+                    new File(listOfFiles[i].toString()).delete();
+                }
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+        }
+
+    }
 
     public static void close() {
         try {
@@ -90,13 +107,10 @@ public class ApplicationHooks {
     }
     @After(order = 1)
     public void tearDown(Scenario scenario) {
-//		if (scenario.isFailed()) {
-        // take screenshot:
         String screenshotName = scenario.getName().replaceAll(" ", "_");
         byte[] sourcePath = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(sourcePath, "image/png", screenshotName);
         System.out.println("tearDown");
-//		}
     }
 
 }
