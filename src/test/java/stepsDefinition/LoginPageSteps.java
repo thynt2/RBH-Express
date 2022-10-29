@@ -1,33 +1,38 @@
 package stepsDefinition;
 
 import appHooks.ApplicationHooks;
-import common.DataHelper;
+import common.BasePage;
 import common.PageGenerator;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pageObjects.LoginPageObject;
 
-public class LoginPageSteps {
+public class LoginPageSteps extends BasePage {
     WebDriver driver;
     LoginPageObject loginPage;
-    DataHelper dataTest;
 
     public LoginPageSteps() {
         this.driver = ApplicationHooks.openAndQuitBrowser();
         loginPage = PageGenerator.getLoginPage(driver);
     }
 
-    @When("Check close login form when click close button")
-    public void check_close_login_form_when_click_close_button() {
-        loginPage.clickToCloseIcon();
+    @When("Input data into required field")
+    public void input_data_into_required_field() {
+        loginPage.inputToEmail("trxautotest001@qa.team");
+        loginPage.inputToPassword("Trx@2020");
+
     }
 
-    @Then("Verify login form is closed")
-    public void verifyLoginFormIsClosed() {
-        Assert.assertTrue(loginPage.isLoginFormClosed());
+    @And("Click Login button")
+    public void clickLoginButton() {
+        loginPage.clickToLoginButton();
+
+    }
+
+    @And("Back to previous page")
+    public void backToPreviousPage() {
+        loginPage.backToPage(driver);
     }
 }
-
-

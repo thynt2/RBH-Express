@@ -2,9 +2,13 @@ package stepsDefinition;
 
 import appHooks.ApplicationHooks;
 import common.PageGenerator;
-import io.cucumber.java.en.Given;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import pageObjects.HomePageObject;
+import pageObjects.LoginPageObject;
 
 public class HomePageSteps {
     WebDriver driver;
@@ -15,13 +19,19 @@ public class HomePageSteps {
         homePage = PageGenerator.getHomePage(driver);
     }
 
-    @Given("User has opened login with Phone No form")
-    public void user_has_opened_login_with_phone_no_form() {
-        homePage.clickToLoginButtonById("btn-login-signInDialog");
+    @Then("Verify user login success")
+    public void verify_user_login_success() {
+        Assert.assertTrue(homePage.isLoginsuccess());
     }
 
-    @Given("User has opened personal register form")
-    public void userHasOpenedPersonalRegisterForm() {
-        homePage.clickToLoginButtonById("btn-header-register");
+    @When("Hover mouse to Admin page")
+    public void hoverMouseToAdminPage() {
+        homePage.hoverToAdmin();
     }
+
+    @And("Click to Company Profile page")
+    public void clickToCompanyProfilePage() {
+        homePage.clickToCompanyProfilePage();
+    }
+
 }

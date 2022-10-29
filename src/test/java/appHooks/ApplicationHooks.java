@@ -22,24 +22,6 @@ import java.util.logging.Logger;
 public class ApplicationHooks {
     private static WebDriver driver;
 
-    @Before(order = 0)
-    public void deleteReportScreenshot() {
-        try {
-            String workingDir = System.getProperty("user.dir");
-            System.out.println(workingDir);
-            String reportFolderPath = workingDir + "/reports";
-            File file = new File(reportFolderPath);
-            File[] listOfFiles = file.listFiles();
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile()) {
-                    new File(listOfFiles[i].toString()).delete();
-                }
-            }
-        } catch (Exception e) {
-            System.out.print(e.getMessage());
-        }
-    }
-
     @Before(order = 1)
     public synchronized static WebDriver openAndQuitBrowser() {
         String browser = System.getProperty("BROWSER");
@@ -48,7 +30,7 @@ public class ApplicationHooks {
                 if (browser == null) {
                     browser = System.getenv("BROWSER");
                     if (browser == null) {
-                        browser = "chrome";
+                        browser = "safari";
                     }
                 }
                 switch (browser) {
@@ -71,7 +53,7 @@ public class ApplicationHooks {
                 Runtime.getRuntime().addShutdownHook(new Thread(new BrowserCleanup()));
             }
             driver.manage().window().maximize();
-            driver.get(GlobalConstants.getGlobalConstants().getDevUrl());
+            driver.get(GlobalConstants.getGlobalConstants().getUrl());
             driver.manage().deleteAllCookies();
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(GlobalConstants.getGlobalConstants().getImplicitWaitTimeout()));
         }
